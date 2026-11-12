@@ -267,7 +267,7 @@ var CONFIG={
  "faq": [
   [
    "Comment payer une formation ?",
-   "Le paiement se fait sur place, à votre arrivée, le jour de la formation ou de l’installation. Aucun paiement en ligne n’est demandé."
+   "Le paiement se fait sur place, dès que nous nous rencontrons. Aucun paiement en ligne n’est demandé."
   ],
   [
    "Où se fait l’installation ?",
@@ -330,7 +330,7 @@ var CONFIG={
   },
   {
    "mots": "payer|paiement|mpesa|m-pesa|airtel",
-   "reponse": "Le paiement se fait sur place, à votre arrivée. Aucun paiement en ligne n’est demandé."
+   "reponse": "Le paiement se fait sur place, dès que nous nous rencontrons. Aucun paiement en ligne n’est demandé."
   },
   {
    "mots": "install|lieu|heure|creneau|créneau|quand",
@@ -385,7 +385,7 @@ $("oSend").onclick=function(){var n=$("on").value.trim(),p=$("op").value.trim();
  if(mb&&(!$("ol").value.trim()||!$("od").value.trim())){alert("Entrez votre adresse et le jour et l’heure souhaités.");return}
  var tot=total(base,feeTxt),rows=[["Logiciels à installer",nm],["Client",n],["WhatsApp",p]];
  if(mb)rows.push(["Lieu choisi par le client",$("ol").value.trim()+" ("+zone.zone+")"],["Jour et heure souhaités",$("od").value.trim()],["Statut","Lieu et heure à confirmer par WhatsApp"]);else rows.push(["Date et heure",s.quand],["Lieu",s.lieu]);
- if(mb&&POS)rows.push(["Position partagée par le client",POS]);rows.push(["Prix des logiciels",base||"À confirmer"]);if(mb)rows.push(["Frais de déplacement",feeTxt||"À confirmer"]);rows.push(["Total à payer",tot||base||"À confirmer"],["Paiement","Sur place, le jour de l’installation"]);
+ if(mb&&POS)rows.push(["Position partagée par le client",POS]);rows.push(["Prix des logiciels",base||"À confirmer"]);if(mb)rows.push(["Frais de déplacement",feeTxt||"À confirmer"]);rows.push(["Total à payer",tot||base||"À confirmer"],["Paiement","Sur place, dès notre rencontre"]);
  showTicket({titre:"TICKET DE RENDEZ-VOUS",code:cd,rows:rows,note:mb?"Votre rendez-vous sera confirmé par notre réponse sur WhatsApp. Présentez ce ticket le jour de l’installation.":"Présentez ce ticket le jour de l’installation. Votre rendez-vous est confirmé par notre réponse sur WhatsApp.",msg:"Bonjour, je souhaite un rendez-vous d’installation.\nCode : "+cd+"\nLogiciels : "+nm+"\nNom : "+n+"\nWhatsApp : "+p+"\n"+(mb?"Lieu choisi : "+$("ol").value.trim()+" ("+zone.zone+")\nJour et heure souhaités : "+$("od").value.trim():"Créneau : "+s.quand+" — "+s.lieu)+(mb&&POS?"\nPosition : "+POS:"")+"\nPrix : "+(base||"à confirmer")+(mb?"\nFrais de déplacement : "+(feeTxt||"à confirmer"):"")+"\nTotal : "+(tot||base||"à confirmer")});cart=[];refreshCart();$("modal").classList.remove("on")};
 /* formations */
 var F=CONFIG.formations[0];$("fTag").textContent=F.tag;$("fTitle").textContent=F.titre;$("fDesc").textContent=F.desc;var inf=document.createElement("p");inf.style.cssText="margin:10px 0 0;font-weight:600";inf.textContent=[F.lieu?"Lieu : "+F.lieu:"",F.prix?"Prix : "+F.prix:"",F.limite?"Inscriptions jusqu’au "+fdate(F.limite):""].filter(Boolean).join(" · ");$("fDesc").after(inf);
@@ -395,13 +395,13 @@ function tick(){var ms=new Date(F.debut)-new Date();if(ms<0){$("count").innerHTM
  var d=Math.floor(ms/864e5),h=Math.floor(ms/36e5)%24,m=Math.floor(ms/6e4)%60;
  $("count").innerHTML="<div><b>"+d+"</b><span>jours</span></div><div><b>"+h+"</b><span>heures</span></div><div><b>"+m+"</b><span>min</span></div>"}
 tick();setInterval(tick,30000);
-function how(){$("how").className="how on";$("how").innerHTML="<b>Paiement sur place</b><br>"+(F.prix?"Vous réglez "+F.prix.toLowerCase()+" à votre arrivée, sur le lieu de la formation.":"Vous réglez à votre arrivée, sur le lieu de la formation.")+" Aucun paiement en ligne."}
+function how(){$("how").className="how on";$("how").innerHTML="<b>Paiement sur place</b><br>"+(F.prix?"Vous réglez "+F.prix.toLowerCase()+" sur place, dès que nous nous rencontrons.":"Vous réglez sur place, dès que nous nous rencontrons.")+" Aucun paiement en ligne."}
 how();
 $("reg").onclick=function(){var n=$("fn").value.trim(),p=$("fp").value.trim();if(!n||!p){alert("Entrez votre nom et votre numéro WhatsApp.");return}
  var FO2=CONFIG.formations.filter(function(f){return f.titre===$("fs").value})[0]||F;
  if(FO2.limite&&new Date()>new Date(FO2.limite+"T23:59:59")){alert("Les inscriptions à cette formation sont closes.");return}
  var cd=code();
- showTicket({titre:"TICKET D’INSCRIPTION",code:cd,rows:[["Formation",FO2.titre],["Participant",n],["WhatsApp",p],["Début de la formation",fdate(FO2.debut)],["Lieu",FO2.lieu||"À préciser"],["Montant à payer",FO2.prix||"À confirmer"],["Paiement","Sur place, à votre arrivée"],["Date limite d’inscription",FO2.limite?fdate(FO2.limite):"Non précisée"],["Statut","Inscription enregistrée, paiement sur place"]],note:"Vous réglez sur place, à votre arrivée. Gardez ce ticket et présentez-le le jour de la formation.",msg:"Bonjour, voici mon inscription.\nCode : "+cd+"\nFormation : "+FO2.titre+"\nNom : "+n+"\nWhatsApp : "+p+"\nPaiement : sur place"})};
+ showTicket({titre:"TICKET D’INSCRIPTION",code:cd,rows:[["Formation",FO2.titre],["Participant",n],["WhatsApp",p],["Début de la formation",fdate(FO2.debut)],["Lieu",FO2.lieu||"À préciser"],["Montant à payer",FO2.prix||"À confirmer"],["Paiement","Sur place, dès notre rencontre"],["Date limite d’inscription",FO2.limite?fdate(FO2.limite):"Non précisée"],["Statut","Inscription enregistrée, paiement sur place"]],note:"Vous réglez sur place, dès que nous nous rencontrons. Gardez ce ticket et présentez-le à ce moment-là.",msg:"Bonjour, voici mon inscription.\nCode : "+cd+"\nFormation : "+FO2.titre+"\nNom : "+n+"\nWhatsApp : "+p+"\nPaiement : sur place"})};
 $("share").onclick=function(){var t="Formation : "+F.titre+". Inscription : "+location.href;if(navigator.share){navigator.share({title:F.titre,text:t}).catch(function(){})}else{window.open("https://wa.me/?text="+encodeURIComponent(t),"_blank")}};
 function code(){var a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",c="TK-";for(var i=0;i<5;i++)c+=a[Math.floor(Math.random()*a.length)];return c}
 function fdate(s){var d=new Date(s.length===10?s+"T12:00:00":s),r=d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});if(s.length>10)r+=" à "+d.toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit"});return r}
@@ -430,7 +430,7 @@ function track(type,d){if(!RP)return;try{var o=Object.assign({type:type,vid:vid(
 CONFIG.faq.forEach(function(q){var d=document.createElement("details");d.className="card";d.style.marginBottom="10px";d.innerHTML="<summary style='font-weight:700;cursor:pointer'></summary><p style='margin-top:8px'></p>";d.children[0].textContent=q[0];d.children[1].textContent=q[1];$("faq").appendChild(d)});
 /* assistant */
 function say(t,c){var m=document.createElement("div");m.className="m "+c;m.textContent=t;$("log").appendChild(m);$("log").scrollTop=1e9}
-var KB0=[["prix|combien|tarif|cout|coût","Les prix dépendent du logiciel ou de la formation. Écrivez-nous sur WhatsApp pour un tarif exact."],["payer|paiement|mpesa|m-pesa|airtel","Le paiement se fait sur place, à votre arrivée. Aucun paiement en ligne n’est demandé."],["install|lieu|heure|creneau|créneau|quand","Choisissez un logiciel, cliquez sur Commander et prenez un créneau d’installation."],["formation|cours|enscape|inscri","La 1re édition de la formation Enscape débute le 28 octobre 2026. Utilisez le formulaire Formations pour vous inscrire."],["pc|ordinateur|config","Pour le rendu 3D, une carte graphique dédiée est conseillée. Envoyez-nous la configuration de votre PC."],["bonjour|salut|hello","Bonjour ! Que souhaitez-vous savoir : logiciels, formation, paiement ?"]];
+var KB0=[["prix|combien|tarif|cout|coût","Les prix dépendent du logiciel ou de la formation. Écrivez-nous sur WhatsApp pour un tarif exact."],["payer|paiement|mpesa|m-pesa|airtel","Le paiement se fait sur place, dès que nous nous rencontrons. Aucun paiement en ligne n’est demandé."],["install|lieu|heure|creneau|créneau|quand","Choisissez un logiciel, cliquez sur Commander et prenez un créneau d’installation."],["formation|cours|enscape|inscri","La 1re édition de la formation Enscape débute le 28 octobre 2026. Utilisez le formulaire Formations pour vous inscrire."],["pc|ordinateur|config","Pour le rendu 3D, une carte graphique dédiée est conseillée. Envoyez-nous la configuration de votre PC."],["bonjour|salut|hello","Bonjour ! Que souhaitez-vous savoir : logiciels, formation, paiement ?"]];
 var KB=(CONFIG.bot&&CONFIG.bot.length)?CONFIG.bot.map(function(b){return[b.mots,b.reponse]}):KB0;
 function ask(q){say(q,"u");var l=q.toLowerCase(),r=null;KB.forEach(function(k){if(!r&&new RegExp(k[0]).test(l))r=k[1]});
  say(r||"Je n’ai pas la réponse exacte. Un conseiller vous répond sur WhatsApp.","b");if(!r){var a=document.createElement("a");a.className="m b";a.href=wa("Question : "+q);a.target="_blank";a.rel="noopener";a.textContent="Ouvrir WhatsApp";$("log").appendChild(a)}}
